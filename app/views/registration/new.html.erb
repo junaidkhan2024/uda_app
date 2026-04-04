@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Join UDA – United Doctors Association, Pune</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #0A1628; --navy-mid: #112240; --navy-light: #1a3560;
+    --gold: #C9A84C; --gold-light: #e8c97a; --gold-pale: #f5e9c8;
+    --cream: #FAF7F0; --white: #ffffff; --text-muted: #8a9bb5;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Lato',sans-serif; background:var(--navy); color:var(--white); min-height:100vh; }
+  ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:var(--navy)} ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; width:100%; z-index:1000;
+    background:rgba(10,22,40,0.97); backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(201,168,76,0.25);
+    padding:0 40px; display:flex; align-items:center; justify-content:space-between; height:72px;
+  }
+  .nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+  .logo-icon {
+    width:42px; height:42px; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:900; color:var(--navy); font-family:'Playfair Display',serif;
+  }
+  .logo-text .main { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--gold); display:block; }
+  .logo-text .sub  { font-size:10px; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase; display:block; }
+  .nav-back {
+    color:var(--text-muted); text-decoration:none; font-size:13px; letter-spacing:1px;
+    text-transform:uppercase; padding:8px 16px; border-radius:6px; transition:all 0.25s; font-weight:700;
+    border:1px solid rgba(201,168,76,0.2);
+  }
+  .nav-back:hover { color:var(--gold); background:rgba(201,168,76,0.1); }
+
+  /* PAGE */
+  .page-wrap {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:100px 20px 60px;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(26,53,96,0.5) 0%, transparent 50%),
+      var(--navy);
+  }
+
+  .grid-bg {
+    position:fixed; inset:0; pointer-events:none; opacity:0.03;
+    background-image:linear-gradient(var(--gold) 1px,transparent 1px),linear-gradient(90deg,var(--gold) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+
+  .form-container {
+    width:100%; max-width:900px; position:relative; z-index:1;
+    animation:fadeUp 0.7s ease both;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  /* HEADER */
+  .form-header { text-align:center; margin-bottom:48px; }
+  .form-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3);
+    padding:6px 18px; border-radius:30px; font-size:11px; letter-spacing:3px;
+    text-transform:uppercase; color:var(--gold); margin-bottom:20px;
+  }
+  .form-badge::before { content:'✦'; font-size:8px; }
+  .form-header h1 {
+    font-family:'Playfair Display',serif; font-size:clamp(36px,5vw,56px);
+    font-weight:900; margin-bottom:8px;
+  }
+  .form-header h1 span { color:var(--gold); }
+  .form-header p {
+    font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--text-muted);
+    font-style:italic; letter-spacing:1px;
+  }
+  .header-line { width:60px; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-light)); margin:18px auto; border-radius:2px; }
+
+  /* CARD */
+  .form-card {
+    background:linear-gradient(160deg,var(--navy-mid),var(--navy));
+    border:1px solid rgba(201,168,76,0.2); border-radius:24px; padding:48px;
+    position:relative; overflow:hidden;
+  }
+  .form-card::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:200px; height:200px;
+    background:radial-gradient(circle,rgba(201,168,76,0.12) 0%,transparent 70%);
+    border-radius:50%; pointer-events:none;
+  }
+
+  /* ERRORS */
+  .error-box {
+    background:rgba(220,60,60,0.1); border:1px solid rgba(220,60,60,0.3);
+    border-radius:12px; padding:20px 24px; margin-bottom:28px;
+  }
+  .error-box h4 { color:#f08080; font-size:13px; margin-bottom:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  .error-box ul { list-style:none; }
+  .error-box ul li { color:#f08080; font-size:13px; padding:3px 0; }
+  .error-box ul li::before { content:'⚠ '; }
+
+  /* NOTICE (flash) */
+  .flash-notice {
+    background:rgba(60,180,90,0.1); border:1px solid rgba(60,180,90,0.3);
+    border-radius:12px; padding:16px 24px; margin-bottom:24px;
+    color:#7ae0a0; font-size:14px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider { margin:32px 0 28px; }
+  .section-divider span {
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:700;
+    display:flex; align-items:center; gap:12px;
+  }
+  .section-divider span::after { content:''; flex:1; height:1px; background:rgba(201,168,76,0.2); }
+
+  /* FORM ELEMENTS */
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .form-group { margin-bottom:20px; }
+  .form-group label {
+    display:block; font-size:10px; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--gold); margin-bottom:8px; font-weight:700;
+  }
+  .form-group label .req { color:#f08080; margin-left:2px; }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width:100%; background:rgba(255,255,255,0.04);
+    border:1px solid rgba(201,168,76,0.2); border-radius:10px;
+    padding:13px 16px; color:var(--white); font-size:14px; font-family:'Lato',sans-serif;
+    transition:all 0.3s; outline:none; -webkit-appearance:none;
+  }
+  .form-group input.field-error,
+  .form-group select.field-error { border-color:rgba(220,60,60,0.5); background:rgba(220,60,60,0.05); }
+  .field-error-msg { font-size:11px; color:#f08080; margin-top:5px; display:block; }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color:rgba(255,255,255,0.18); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color:var(--gold); background:rgba(201,168,76,0.05);
+    box-shadow:0 0 0 3px rgba(201,168,76,0.1);
+  }
+  .form-group select option { background:var(--navy-mid); color:var(--white); }
+
+  /* FILE UPLOAD */
+  .file-wrap {
+    border:1px dashed rgba(201,168,76,0.3); border-radius:10px;
+    padding:22px; text-align:center; cursor:pointer; transition:all 0.3s;
+  }
+  .file-wrap:hover { border-color:var(--gold); background:rgba(201,168,76,0.04); }
+  .file-wrap input[type=file] { display:none; }
+  .file-label { font-size:13px; color:var(--text-muted); }
+  .file-label strong { color:var(--gold); }
+
+  /* SUBMIT */
+  .submit-row { display:flex; align-items:center; gap:20px; margin-top:12px; flex-wrap:wrap; }
+  .submit-btn {
+    flex:1; min-width:200px; padding:17px; border-radius:12px; border:none;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    color:var(--navy); font-size:15px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; cursor:pointer;
+    transition:all 0.3s; box-shadow:0 8px 30px rgba(201,168,76,0.3);
+  }
+  .submit-btn:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(201,168,76,0.5); }
+  .submit-btn:active { transform:translateY(0); }
+  .cancel-link {
+    color:var(--text-muted); font-size:13px; text-decoration:none; letter-spacing:1px;
+    text-transform:uppercase; font-weight:700; transition:color 0.2s;
+  }
+  .cancel-link:hover { color:var(--gold); }
+
+  /* STEP BADGES */
+  .step-badges { display:flex; gap:12px; margin-bottom:36px; flex-wrap:wrap; }
+  .step-badge {
+    display:flex; align-items:center; gap:8px;
+    background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.15);
+    border-radius:8px; padding:10px 16px; font-size:12px; color:var(--text-muted);
+  }
+  .step-badge .num {
+    width:22px; height:22px; border-radius:50%; background:rgba(201,168,76,0.2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:var(--gold); flex-shrink:0;
+  }
+
+  @media(max-width:768px) {
+    nav { padding:0 16px; }
+    .form-card { padding:28px 20px; }
+    .form-row { grid-template-columns:1fr; }
+    .submit-row { flex-direction:column; }
+    .submit-btn { width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="logo-icon">✚</div>
+    <div class="logo-text">
+      <span class="main">UDA</span>
+      <span class="sub">Pune, India</span>
+    </div>
+  </a>
+  <%= link_to "← Back to Home", root_path, class: "nav-back" %>
+</nav>
+
+<div class="page-wrap">
+  <div class="form-container">
+
+    <!-- HEADER -->
+    <div class="form-header">
+      <div class="form-badge">Membership Application</div>
+      <h1>Join <span>UDA</span></h1>
+      <div class="header-line"></div>
+      <p>Become part of Pune's most respected medical fraternity</p>
+    </div>
+
+    <!-- STEP INDICATORS -->
+    <div class="step-badges">
+      <div class="step-badge"><div class="num">1</div> Fill your details</div>
+      <div class="step-badge"><div class="num">2</div> Upload documents</div>
+      <div class="step-badge"><div class="num">3</div> Submit & await review</div>
+    </div>
+
+    <!-- FLASH NOTICE -->
+    <% if notice.present? %>
+      <div class="flash-notice">✅ <%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="error-box"><h4>Notice</h4><p><%= alert %></p></div>
+    <% end %>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+      <!-- VALIDATION ERRORS -->
+      <% if @registration.errors.any? %>
+        <div class="error-box">
+          <h4><%= pluralize(@registration.errors.count, "error") %> prevented submission</h4>
+          <ul>
+            <% @registration.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @registration, url: registrations_path, local: true, html: { id: "regForm" } do |f| %>
+
+        <!-- PERSONAL INFO -->
+        <div class="section-divider"><span>Personal Information</span></div>
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :first_name do %><span>First Name</span><span class="req">*</span><% end %>
+            <%= f.text_field :first_name, placeholder: "First Name",
+                class: @registration.errors[:first_name].any? ? "field-error" : "" %>
+            <% if @registration.errors[:first_name].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:first_name].first %></span>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <%= f.label :last_name do %><span>Last Name</span><span class="req">*</span><% end %>
+            <%= f.text_field :last_name, placeholder: "Last Name",
+                class: @registration.errors[:last_name].any? ? "field-error" : "" %>
+            <% if @registration.errors[:last_name].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:last_name].first %></span>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- MEDICAL INFO -->
+        <div class="section-divider"><span>Medical Details</span></div>
+        <div class="form-group">
+          <%= f.label :registration_number do %><span>Medical Registration Number</span><span class="req">*</span><% end %>
+          <%= f.text_field :registration_number, placeholder: "MH-XXXXXXXX",
+              class: @registration.errors[:registration_number].any? ? "field-error" : "" %>
+          <% if @registration.errors[:registration_number].any? %>
+            <span class="field-error-msg"><%= @registration.errors[:registration_number].first %></span>
+          <% end %>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :specialization do %><span>Specialization</span><span class="req">*</span><% end %>
+            <%= f.select :specialization,
+                options_for_select(Registration::SPECIALIZATIONS, @registration.specialization),
+                { include_blank: "Select Specialization" },
+                class: @registration.errors[:specialization].any? ? "field-error" : "" %>
+            <% if @registration.errors[:specialization].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:specialization].first %></span>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <%= f.label :qualification do %><span>Qualification</span><span class="req">*</span><% end %>
+            <%= f.text_field :qualification, placeholder: "MBBS, MD, MS...",
+                class: @registration.errors[:qualification].any? ? "field-error" : "" %>
+            <% if @registration.errors[:qualification].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:qualification].first %></span>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :hospital_name do %><span>Hospital / Clinic Name</span><span class="req">*</span><% end %>
+          <%= f.text_field :hospital_name, placeholder: "Name of Hospital or Clinic",
+              class: @registration.errors[:hospital_name].any? ? "field-error" : "" %>
+          <% if @registration.errors[:hospital_name].any? %>
+            <span class="field-error-msg"><%= @registration.errors[:hospital_name].first %></span>
+          <% end %>
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="section-divider"><span>Contact Information</span></div>
+        <div class="form-row">
+          <div class="form-group">
+            <%= f.label :phone do %><span>Contact Number</span><span class="req">*</span><% end %>
+            <%= f.telephone_field :phone, placeholder: "+91 XXXXX XXXXX",
+                class: @registration.errors[:phone].any? ? "field-error" : "" %>
+            <% if @registration.errors[:phone].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:phone].first %></span>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <%= f.label :email do %><span>Email Address</span><span class="req">*</span><% end %>
+            <%= f.email_field :email, placeholder: "doctor@email.com",
+                class: @registration.errors[:email].any? ? "field-error" : "" %>
+            <% if @registration.errors[:email].any? %>
+              <span class="field-error-msg"><%= @registration.errors[:email].first %></span>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :area do %><span>Area / Locality in Pune</span><span class="req">*</span><% end %>
+          <%= f.text_field :area, placeholder: "e.g. Kothrud, Aundh, Koregaon Park",
+              class: @registration.errors[:area].any? ? "field-error" : "" %>
+          <% if @registration.errors[:area].any? %>
+            <span class="field-error-msg"><%= @registration.errors[:area].first %></span>
+          <% end %>
+        </div>
+
+        <!-- DOCUMENT UPLOAD -->
+        <div class="section-divider"><span>Documents</span></div>
+        <div class="form-group">
+          <%= f.label :document do %><span>Medical Certificate / ID Proof</span><% end %>
+          <div class="file-wrap" onclick="document.getElementById('reg_doc').click()">
+            <%= f.file_field :document, id: "reg_doc", accept: ".pdf,.jpg,.jpeg,.png",
+                onchange: "updateFileName(this)" %>
+            <div class="file-label" id="fileLabel">
+              📎 <strong>Click to upload</strong> — PDF, JPG or PNG accepted
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="submit-row">
+          <%= f.submit "Submit Application →", class: "submit-btn" %>
+          <%= link_to "Cancel", root_path, class: "cancel-link" %>
+        </div>
+
+      <% end %>
+    </div><!-- /form-card -->
+
+  </div><!-- /form-container -->
+</div><!-- /page-wrap -->
+
+<script>
+  function updateFileName(input) {
+    const label = document.getElementById('fileLabel');
+    if (input.files.length > 0) {
+      label.innerHTML = `📎 <strong>${input.files[0].name}</strong> — Ready to upload`;
+    }
+  }
+</script>
+</body>
+</html>
