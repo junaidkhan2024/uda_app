@@ -13,7 +13,7 @@ class Registration < ApplicationRecord
   validates :registration_number, presence: true, uniqueness: { case_sensitive: false }
   validates :specialization,      inclusion: { in: SPECIALIZATIONS }
   validates :qualification,       presence: true
-  validates :hospital_or_clinic_name
+  validate :hospital_or_clinic_name
   validates :phone,               presence: true, format: { with: /\A[\d\s\+\-]{7,15}\z/, message: "is not valid" }
   validates :email,               presence: true, uniqueness: { case_sensitive: false },
                                   format: { with: URI::MailTo::EMAIL_REGEXP }
