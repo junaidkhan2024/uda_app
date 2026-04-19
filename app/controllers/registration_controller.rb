@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class RegistrationController < ApplicationController
   def new
     @registration = Registration.new
   end
@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.save
       redirect_to dashboard_index_path,
-                  notice: "🎉 Application submitted! We'll contact you within 48 hours."
+                  notice: "Application submitted! We'll contact you within 48 hours."
     else
       render :new, status: :unprocessable_entity
     end
