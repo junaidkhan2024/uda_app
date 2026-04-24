@@ -10,7 +10,7 @@
 
 <!-- ── NAV ── -->
 <nav id="navbar">
-  <%= link_to root_path, class: "nav-logo" do %>
+  <%= link_to root_path, data: { turbo: false }, class: "nav-logo" do %>
     <div class="logo-icon">✚</div>
     <div class="logo-text">
       <span class="main">UDA</span>
@@ -18,11 +18,11 @@
     </div>
   <% end %>
   <ul class="nav-links">
-    <li><%= link_to "Home", root_path %></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#leadership">Leadership</a></li>
-    <li><a href="#activities">Activities</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><%= link_to "Home", root_path, data: { turbo: false } %></li>
+    <li><a href="#about" data-turbo="false">About</a></li>
+    <li><a href="#leadership" data-turbo="false">Leadership</a></li>
+    <li><a href="#activities" data-turbo="false">Activities</a></li>
+    <li><a href="#contact" data-turbo="false">Contact</a></li>
     <li><%= link_to "JOIN UDA", new_registration_path  %></li>
   </ul>
 </nav>
@@ -39,8 +39,8 @@
     <div class="hero-divider"></div>
     <p class="hero-tagline">Uniting Medical Minds. Advancing Healthcare.<br/>Serving the People of Pune.</p>
     <div class="hero-btns">
-      <%= link_to "JOIN UDA TODAY", new_registration_path  %>
-      <a href="#about" class="btn-outline">Discover More</a>
+      <%= link_to "JOIN UDA TODAY", new_registration_path, class: "btn-outline"  %>
+      <a href="#about" data-turbo="false" class="btn-outline">Discover More</a>
     </div>
   </div>
   <div class="hero-stats">
