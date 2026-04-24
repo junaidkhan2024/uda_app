@@ -20,7 +20,7 @@ class Registration < ApplicationRecord
   validates :area,                presence: true
   validates :status,              inclusion: { in: STATUSES }
 
-  has_one_attached :document   # ActiveStorage — remove if not using ActiveStorage
+  has_one_attached :document
 
   def full_name
     "Dr. #{first_name} #{last_name}"
