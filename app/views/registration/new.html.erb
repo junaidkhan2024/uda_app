@@ -123,11 +123,11 @@
         </div>
 
         <div class="form-group">
-          <%= f.label :hospital_name do %><span>Hospital / Clinic Name</span><span class="req">*</span><% end %>
-          <%= f.text_field :hospital_name, placeholder: "Name of Hospital or Clinic",
-              class: @registration.errors[:hospital_name].any? ? "field-error" : "" %>
-          <% if @registration.errors[:hospital_name].any? %>
-            <span class="field-error-msg"><%= @registration.errors[:hospital_name].first %></span>
+          <%= f.label :hospital_or_clinic_name do %><span>Hospital / Clinic Name</span><span class="req">*</span><% end %>
+          <%= f.text_field :hospital_or_clinic_name, placeholder: "Name of Hospital or Clinic",
+              class: @registration.errors[:hospital_or_clinic_name].any? ? "field-error" : "" %>
+          <% if @registration.errors[:hospital_or_clinic_name].any? %>
+            <span class="field-error-msg"><%= @registration.errors[:hospital_or_clinic_name].first %></span>
           <% end %>
         </div>
 

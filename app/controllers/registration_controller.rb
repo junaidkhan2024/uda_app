@@ -7,7 +7,7 @@ class RegistrationController < ApplicationController
     @registration = Registration.new(registration_params)
 
     if @registration.save
-      redirect_to dashboard_index_path,
+      redirect_to root_path,
                   notice: "Application submitted! We'll contact you within 48 hours."
     else
       render :new, status: :unprocessable_entity
@@ -19,7 +19,7 @@ class RegistrationController < ApplicationController
   def registration_params
     params.require(:registration).permit(
       :first_name, :last_name, :registration_number,
-      :specialization, :qualification, :hospital_name,
+      :specialization, :qualification, :hospital_or_clinic_name,
       :phone, :email, :area, :document
     )
   end
