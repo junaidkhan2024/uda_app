@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   get "dashboard", to: "dashboard#index"
 
   resources :registration, only: [ :new, :create ]
+
+  resources :members, only: [ :index ]
 end
