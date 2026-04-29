@@ -1,0 +1,146 @@
+<%# app/views/members/index.html.erb %>
+
+<% content_for :head do %>
+  <%= stylesheet_link_tag "members", "data-turbo-track": "reload" %>
+<% end %>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav id="navbar" data-turbo="false">
+  <%= link_to root_path, class: "nav-logo" do %>
+    <div class="logo-icon">✚</div>
+    <div class="logo-text">
+      <span class="main">UDA</span>
+      <span class="sub">Pune, India</span>
+    </div>
+  <% end %>
+  <%= link_to "← Back to Home", root_path, class: "nav-back" %>
+</nav>
+
+<div class="page-wrap">
+  <div class="members-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="form-badge">Our Members</div>
+      <h1>UDA <span>Member Directory</span></h1>
+      <div class="header-line"></div>
+      <p>United Doctors Association — Pune's registered medical professionals</p>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-num"><%= @total_count %></span>
+        <span class="stat-label">Total Members</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><%= @specialization_count %></span>
+        <span class="stat-label">Specializations</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num"><%= @approved_count %></span>
+        <span class="stat-label">Active Members</span>
+      </div>
+    </div>
+
+    <!-- SEARCH & FILTER -->
+    <%= form_with url: members_path, method: :get, local: true, class: "search-form", data: { turbo: false } do |f| %>
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <%= f.text_field :search, value: params[:search],
+              placeholder: "Search by name, hospital, area...",
+              class: "search-input" %>
+        </div>
+        <div class="filter-wrap">
+          <%= f.select :specialization,
+              options_for_select([["All Specializations", ""]] + Registration::SPECIALIZATIONS.map { |s| [s, s] }, params[:specialization]),
+              {},
+              class: "filter-select" %>
+        </div>
+        <div class="filter-wrap">
+          <%= f.select :area,
+              options_for_select([["All Areas", ""]] + @areas, params[:area]),
+              {},
+              class: "filter-select" %>
+        </div>
+        <%= f.submit "Search", class: "search-btn" %>
+        <% if params[:search].present? || params[:specialization].present? || params[:area].present? %>
+          <%= link_to "✕ Clear", members_path, class: "clear-btn" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- RESULTS COUNT -->
+    <div class="results-info">
+      <% if params[:search].present? || params[:specialization].present? || params[:area].present? %>
+        Showing <strong><%= @registrations.count %></strong> results
+        <% if params[:search].present? %> for "<strong><%= params[:search] %></strong>"<% end %>
+        <% if params[:specialization].present? %> in <strong><%= params[:specialization] %></strong><% end %>
+        <% if params[:area].present? %> · <strong><%= params[:area] %></strong><% end %>
+      <% else %>
+        Showing all <strong><%= @registrations.count %></strong> members
+      <% end %>
+    </div>
+
+    <!-- MEMBERS TABLE -->
+    <% if @registrations.any? %>
+      <div class="table-wrap">
+        <table class="members-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Doctor</th>
+              <th>Registration No.</th>
+              <th>Specialization</th>
+              <th>Qualification</th>
+              <th>Hospital / Clinic</th>
+              <th>Contact</th>
+              <th>Area</th>
+              <th>Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @registrations.each_with_index do |reg, i| %>
+              <tr class="member-row">
+                <td class="td-num"><%= i + 1 %></td>
+                <td class="td-name">
+                  <div class="member-avatar"><%= reg.first_name[0].upcase %><%= reg.last_name[0].upcase rescue "" %></div>
+                  <div class="member-name-wrap">
+                    <span class="member-fullname">Dr. <%= reg.first_name %> <%= reg.last_name %></span>
+                  </div>
+                </td>
+                <td class="td-reg"><span class="reg-badge"><%= reg.registration_number %></span></td>
+                <td class="td-spec"><span class="spec-tag"><%= reg.specialization %></span></td>
+                <td class="td-qual"><%= reg.qualification %></td>
+                <td class="td-hospital"><%= reg.hospital_or_clinic_name %></td>
+                <td class="td-contact">
+                  <div class="contact-stack">
+                    <span>📞 <%= reg.phone %></span>
+                    <span>✉ <%= reg.email %></span>
+                  </div>
+                </td>
+                <td class="td-area"><span class="area-tag">📍 <%= reg.area %></span></td>
+                <td class="td-status">
+                  <span class="status-badge status-<%= reg.status %>"><%= reg.status.capitalize %></span>
+                </td>
+                <td class="td-date"><%= reg.created_at.strftime("%d %b %Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <div class="empty-icon">🔎</div>
+        <h3>No members found</h3>
+        <p>Try adjusting your search or filter criteria.</p>
+        <%= link_to "Clear Filters", members_path, class: "btn-gold" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
