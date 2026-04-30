@@ -1,0 +1,261 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+<% end %>
+
+<div class="admin-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">✚</div>
+      <div>
+        <span class="logo-main">UDA</span>
+        <span class="logo-sub">Admin Panel</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <%= link_to "📋 Registrations",
+          admin_dashboard_path,
+          class: "nav-item #{current_page?(admin_dashboard_path) ? 'active' : ''}" %>
+
+      <%= link_to "📅 Activities",
+          admin_activities_path,
+          class: "nav-item #{current_page?(admin_activities_path) ? 'active' : ''}" %>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="admin-email">👤 <%= current_admin.email %></span>
+      <%= link_to "Logout", admin_logout_path, method: :delete,
+          data: { turbo_method: :delete }, class: "logout-btn" %>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <h1 class="topbar-title">Dashboard</h1>
+      <div class="topbar-actions">
+        <%= link_to root_path, class: "topbar-link", data: { turbo: false } do %>
+          🌐 View Website
+        <% end %>
+      </div>
+    </div>
+
+    <!-- FLASH -->
+    <% if notice.present? %>
+      <div class="flash-success">✅ <%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="flash-error">⚠ <%= alert %></div>
+    <% end %>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-num"><%= @total_members %></div>
+        <div class="stat-label">Total Registrations</div>
+      </div>
+      <div class="stat-card pending">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-num"><%= @pending_count %></div>
+        <div class="stat-label">Pending Approval</div>
+      </div>
+      <div class="stat-card approved">
+        <div class="stat-icon">✅</div>
+        <div class="stat-num"><%= @approved_count %></div>
+        <div class="stat-label">Approved Members</div>
+      </div>
+      <div class="stat-card activities">
+        <div class="stat-icon">📅</div>
+        <div class="stat-num"><%= @upcoming_activities.count %></div>
+        <div class="stat-label">Upcoming Activities</div>
+      </div>
+    </div>
+
+    <!-- ── REGISTRATIONS ── -->
+    <section id="registrations" class="panel">
+      <div class="panel-header">
+        <h2>📋 Registration Requests</h2>
+      </div>
+
+      <!-- PENDING -->
+      <div class="sub-header">
+        <span class="badge badge-pending">⏳ Pending (<%= @pending_registrations.count %>)</span>
+      </div>
+      <% if @pending_registrations.any? %>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Doctor</th><th>Reg. No.</th><th>Specialization</th>
+                <th>Hospital</th><th>Contact</th><th>Area</th>
+                <th>Applied On</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @pending_registrations.each do |reg| %>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="avatar"><%= reg.first_name[0] %><%= reg.last_name[0] rescue "" %></div>
+                      <div>
+                        <strong>Dr. <%= reg.first_name %> <%= reg.last_name %></strong>
+                        <small><%= reg.qualification %></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="mono"><%= reg.registration_number %></span></td>
+                  <td><span class="spec-tag"><%= reg.specialization %></span></td>
+                  <td><%= reg.hospital_or_clinic_name %></td>
+                  <td>
+                    <div class="contact-stack">
+                      <span>📞 <%= reg.phone %></span>
+                      <span>✉ <%= reg.email %></span>
+                    </div>
+                  </td>
+                  <td>📍 <%= reg.area %></td>
+                  <td><%= reg.created_at.strftime("%d %b %Y") %></td>
+                  <td>
+                    <div class="action-btns">
+                      <%= link_to "✓ Approve",
+                          approve_admin_registration_path(reg),
+                          method: :patch,
+                          data: { turbo_method: :patch, confirm: "Approve Dr. #{reg.first_name} #{reg.last_name}?" },
+                          class: "btn-approve" %>
+                      <%= link_to "✕ Reject",
+                          reject_admin_registration_path(reg),
+                          method: :patch,
+                          data: { turbo_method: :patch, confirm: "Reject this registration?" },
+                          class: "btn-reject" %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="empty-row">🎉 No pending registrations!</div>
+      <% end %>
+
+      <!-- APPROVED -->
+      <div class="sub-header" style="margin-top:32px;">
+        <span class="badge badge-approved">✅ Approved (<%= @approved_registrations.count %>)</span>
+      </div>
+      <% if @approved_registrations.any? %>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Doctor</th><th>Specialization</th><th>Hospital</th><th>Area</th><th>Approved</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @approved_registrations.each do |reg| %>
+                <tr>
+                  <td>
+                    <div class="doc-name">
+                      <div class="avatar approved-av"><%= reg.first_name[0] %><%= reg.last_name[0] rescue "" %></div>
+                      <strong>Dr. <%= reg.first_name %> <%= reg.last_name %></strong>
+                    </div>
+                  </td>
+                  <td><span class="spec-tag"><%= reg.specialization %></span></td>
+                  <td><%= reg.hospital_or_clinic_name %></td>
+                  <td>📍 <%= reg.area %></td>
+                  <td><%= reg.updated_at.strftime("%d %b %Y") %></td>
+                  <td>
+                    <%= link_to "✕ Revoke",
+                        reject_admin_registration_path(reg),
+                        method: :patch,
+                        data: { turbo_method: :patch, confirm: "Revoke approval?" },
+                        class: "btn-reject btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </section>
+
+    <!-- ── ACTIVITIES ── -->
+    <section id="activities" class="panel">
+      <div class="panel-header">
+        <h2>📅 Activities</h2>
+        <%= link_to "+ Add New Activity", new_admin_activity_path, class: "btn-gold" %>
+      </div>
+
+      <!-- UPCOMING -->
+      <div class="sub-header">
+        <span class="badge badge-upcoming">🗓 Upcoming (<%= @upcoming_activities.count %>)</span>
+      </div>
+      <% if @upcoming_activities.any? %>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Emoji</th><th>Title</th><th>Date</th><th>Location</th><th>Description</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <% @upcoming_activities.each do |act| %>
+                <tr>
+                  <td style="font-size:24px; text-align:center;"><%= act.emoji %></td>
+                  <td><strong><%= act.title %></strong></td>
+                  <td><%= act.datetime&.strftime("%d %b %Y") %></td>
+                  <td>📍 <%= act.location %></td>
+                  <td><span class="desc-text"><%= act.description %></span></td>
+                  <td>
+                    <div class="action-btns">
+                      <%= link_to "✏ Edit", edit_admin_activity_path(act), class: "btn-edit" %>
+                      <%= link_to "🗑 Delete", admin_activity_path(act),
+                          method: :delete,
+                          data: { turbo_method: :delete, confirm: "Delete '#{act.title}'?" },
+                          class: "btn-reject btn-sm" %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="empty-row">No upcoming activities. <%= link_to "Add one →", new_admin_activity_path %></div>
+      <% end %>
+
+      <!-- PAST -->
+      <div class="sub-header" style="margin-top:32px;">
+        <span class="badge badge-past">📁 Past (<%= @past_activities.count %>)</span>
+      </div>
+      <% if @past_activities.any? %>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Emoji</th><th>Title</th><th>Date</th><th>Location</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <% @past_activities.each do |act| %>
+                <tr>
+                  <td style="font-size:24px; text-align:center;"><%= act.emoji %></td>
+                  <td><strong><%= act.title %></strong></td>
+                  <td><%= act.datetime&.strftime("%d %b %Y") %></td>
+                  <td>📍 <%= act.location %></td>
+                  <td>
+                    <div class="action-btns">
+                      <%= link_to "✏ Edit", edit_admin_activity_path(act), class: "btn-edit" %>
+                      <%= link_to "🗑 Delete", admin_activity_path(act),
+                          method: :delete,
+                          data: { turbo_method: :delete, confirm: "Delete '#{act.title}'?" },
+                          class: "btn-reject btn-sm" %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </section>
+
+  </main>
+</div>
