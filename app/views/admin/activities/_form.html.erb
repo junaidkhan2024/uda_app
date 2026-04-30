@@ -1,0 +1,63 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
+<% end %>
+
+<div class="admin-form-wrap">
+  <div class="admin-form-card">
+
+    <div class="form-top">
+      <h2>📅 <%= @activity.new_record? ? "Add New Activity" : "Edit Activity" %></h2>
+      <%= link_to "← Back to Dashboard", admin_dashboard_path, class: "back-link" %>
+    </div>
+
+    <% if @activity.errors.any? %>
+      <div class="flash-error">
+        <strong><%= pluralize(@activity.errors.count, "error") %>:</strong>
+        <ul><% @activity.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: [:admin, @activity], local: true do |f| %>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :emoji, "Icon / Emoji" %>
+          <%= f.text_field :emoji, placeholder: "📅", class: "emoji-input" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :status, "Status" %>
+          <%= f.select :status,
+              options_for_select([["🗓 Upcoming", "upcoming"], ["📁 Past", "past"]], @activity.status),
+              {}, class: "form-select" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :title, "Activity Title *" %>
+        <%= f.text_field :title, placeholder: "e.g. Annual Health Camp 2025", required: true %>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :datetime, "Date *" %>
+          <%= f.datetime_field :datetime, required: true %>
+        </div>
+        <div class="form-group">
+          <%= f.label :location, "Location *" %>
+          <%= f.text_field :location, placeholder: "e.g. Shivajinagar Grounds, Pune", required: true %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description, "Description" %>
+        <%= f.text_area :description, rows: 4, placeholder: "Describe the activity..." %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit @activity.new_record? ? "Create Activity" : "Update Activity", class: "btn-submit" %>
+        <%= link_to "Cancel", admin_dashboard_path, class: "btn-cancel" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

@@ -8,3 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 load Rails.root.join('db/seeds/uda_members.rb')
+
+Admin.find_or_create_by(email: "admin@udapune.org") do |a|
+  a.password = "UDA@admin2026"
+  a.password_confirmation = "UDA@admin2026"
+end
+puts "✅ Admin created: admin@udapune.org / UDA@admin2026"

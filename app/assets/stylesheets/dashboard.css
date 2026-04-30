@@ -510,3 +510,12 @@ section { padding: 70px 20px; }
 .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
 }
 
+.admin-footer-link {
+  color: rgba(255,255,255,0.1);
+  font-size: 11px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.admin-footer-link:hover {
+  color: var(--gold);
+}
