@@ -519,3 +519,34 @@ section { padding: 70px 20px; }
 .admin-footer-link:hover {
   color: var(--gold);
 }
+
+/* ── LEADER PHOTO WITH REAL IMAGE ── */
+.leader-photo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.leader-photo-ring-outer {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  box-shadow: 0 0 30px rgba(201,168,76,0.35);
+  animation: none;
+}
+
+.leader-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border: 3px solid var(--navy-mid);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
