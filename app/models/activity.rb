@@ -5,6 +5,6 @@ class Activity < ApplicationRecord
   validates :location, presence: true
   validates :status, inclusion: { in: %w[upcoming past] }
 
-  scope :upcoming, -> { where(status: "upcoming").order(datetime: :asc) }
-  scope :past,     -> { where(status: "past").order(datetime: :desc) }
+  scope :upcoming, -> { where("datetime >= ?", Time.current).order(datetime: :asc) }
+  scope :past,     -> { where("datetime < ?", Time.current).order(datetime: :desc) }
 end
