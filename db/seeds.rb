@@ -7,10 +7,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-load Rails.root.join('db/seeds/uda_members.rb')
-
-Admin.find_or_create_by(email: "admin@udapune.org") do |a|
-  a.password = "UDA@admin2026"
-  a.password_confirmation = "UDA@admin2026"
+# db/seeds.rb - CHANGE THIS
+Admin.find_or_create_by(email: ENV['ADMIN_EMAIL']) do |a|
+  a.password = ENV['ADMIN_PASSWORD']
+  a.password_confirmation = ENV['ADMIN_PASSWORD']
 end
-puts "✅ Admin created: admin@udapune.org / UDA@admin2026"
+puts "✅ Admin created: #{ENV['ADMIN_EMAIL']}"
