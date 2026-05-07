@@ -11,12 +11,15 @@
 <!-- ── NAV ── -->
 <nav id="navbar">
   <%= link_to root_path, data: { turbo: false }, class: "nav-logo" do %>
-    <div class="logo-icon">✚</div>
+    <div class="logo-icon">
+      <%= image_tag "uda_logo.png", style: "width:32px; height:32px; object-fit:contain;" %>
+    </div>
     <div class="logo-text">
       <span class="main">UDA</span>
       <span class="sub">Pune, India</span>
     </div>
   <% end %>
+
   <ul class="nav-links">
     <li><%= link_to "Home", root_path, data: { turbo: false } %></li>
     <li><a href="#about" data-turbo="false">About</a></li>
@@ -32,7 +35,11 @@
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-cross">✚</div>
+
+  <div class="hero-cross">
+    <%= image_tag "uda_logo.png", style: "width:500px; opacity:5;", class: 'img-left' %>
+  </div>
+  
   <div class="hero-content">
     <div class="hero-badge">Established · Pune, Maharashtra · 2001</div>
     <h1 class="hero-title"><span class="uda">UDA</span></h1>
@@ -44,6 +51,7 @@
       <a href="#about" data-turbo="false" class="btn-outline">Discover More</a>
     </div>
   </div>
+  
   <div class="hero-stats">
     <div class="stat"><div class="stat-num" data-target="600">0</div><div class="stat-label">Members</div></div>
     <div class="stat"><div class="stat-num" data-target="23">0</div><div class="stat-label">Years Active</div></div>
