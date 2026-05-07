@@ -16,7 +16,9 @@
 <!-- NAV -->
 <nav id="navbar">
   <%= link_to root_path, data: { turbo: false }, class: "nav-logo" do %>
-    <div class="logo-icon">✚</div>
+    <div class="logo-icon">
+      <%= image_tag "uda_logo.png", style: "width:32px; height:32px; object-fit:contain;" %>
+    </div>
     <div class="logo-text">
       <span class="main">UDA</span>
       <span class="sub">Pune, India</span>
