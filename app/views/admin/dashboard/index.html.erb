@@ -1,20 +1,19 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
-<% end %>
-
 <div class="admin-wrap">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <div class="logo-icon">
-        <%= image_tag "uda_logo.png", style: "width:32px; height:32px; object-fit:contain;" %>
-      </div>
-      <div>
-        <span class="logo-main">UDA</span>
-        <span class="logo-sub">Admin Panel</span>
-      </div>
+      <%= link_to root_path, style:"display:flex;align-items:center;gap:12px;text-decoration:none;" do %>
+        <div class="logo-icon">
+          <%= image_tag "uda_logo.png", style: "width:32px; height:32px; object-fit:contain;" %>
+        </div>
+        <div>
+          <span class="logo-main">UDA</span>
+          <span class="logo-sub">Admin Panel</span>
+        </div>
+      <%end%>  
     </div>
+
     <nav class="sidebar-nav">
       <%= link_to "📋 Registrations",
           admin_dashboard_path,
@@ -24,8 +23,9 @@
           admin_activities_path,
           class: "nav-item #{current_page?(admin_activities_path) ? 'active' : ''}" %>
     </nav>
+
     <div class="sidebar-footer">
-      <span class="admin-email">👤 <%= current_admin.email %></span>
+      <span class="admin-email">👑 <%= current_admin.email %></span>
       <%= link_to "Logout", admin_logout_path, method: :delete,
           data: { turbo_method: :delete }, class: "logout-btn" %>
     </div>
