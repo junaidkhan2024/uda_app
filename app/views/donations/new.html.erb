@@ -1,0 +1,66 @@
+<div class="donation-container">
+
+  <div class="donation-left">
+    <h1>Support UDA Welfare Activities</h1>
+
+    <p>
+      Your contribution helps UDA organize free health camps,
+      medical awareness drives, emergency support initiatives,
+      and welfare programs for needy doctors and underprivileged people.
+    </p>
+
+    <ul>
+      <li>Free Medical Camps</li>
+      <li>Emergency Relief Programs</li>
+      <li>Support for Needy Families</li>
+      <li>Healthcare Awareness Activities</li>
+    </ul>
+  </div>
+
+  <div class="donation-right">
+
+    <h2>Make a Donation</h2>
+
+    <%= form_with model: @donation, local: true do |f| %>
+
+      <div class="field-row">
+        <div>
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+        </div>
+
+        <div>
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email %>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <%= f.label :mobile_number %>
+          <%= f.text_field :mobile_number %>
+        </div>
+
+        <div>
+          <%= f.label :amount %>
+          <%= f.number_field :amount %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= f.label :address %>
+        <%= f.text_area :address %>
+      </div>
+
+      <%= f.submit "Donate Now", class: "donate-btn" %>
+
+    <% end %>
+
+  </div>
+
+</div>

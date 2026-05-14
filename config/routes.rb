@@ -27,5 +27,7 @@ Rails.application.routes.draw do
 
   # Public members page
   resources :members, only: [ :index ]
-  get "/setup_admin", to: "setup#create_admin"
+
+  # Donation page
+  resources :donations
 end
