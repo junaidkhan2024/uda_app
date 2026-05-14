@@ -1,66 +1,151 @@
-<div class="donation-container">
+<div class="donation-page-wrapper">
 
-  <div class="donation-left">
-    <h1>Support UDA Welfare Activities</h1>
+  <%# — Decorative background blobs — %>
+  <div class="donation-bg-blob blob-1"></div>
+  <div class="donation-bg-blob blob-2"></div>
 
-    <p>
-      Your contribution helps UDA organize free health camps,
-      medical awareness drives, emergency support initiatives,
-      and welfare programs for needy doctors and underprivileged people.
-    </p>
+  <div class="donation-container">
 
-    <ul>
-      <li>Free Medical Camps</li>
-      <li>Emergency Relief Programs</li>
-      <li>Support for Needy Families</li>
-      <li>Healthcare Awareness Activities</li>
-    </ul>
+    <%# ── LEFT PANEL ── %>
+    <div class="donation-left">
+
+      <%# Badge %>
+      <div class="donation-badge">
+        <span class="badge-dot"></span>
+        UDA Welfare Initiative
+      </div>
+
+      <h1>Support UDA<br><span class="title-gold">Welfare Activities</span></h1>
+
+      <p>
+        Your contribution helps UDA organize free health camps,
+        medical awareness drives, emergency support initiatives,
+        and welfare programs for needy doctors and underprivileged people.
+      </p>
+
+      <%# Stats row %>
+      <div class="donation-stats">
+        <div class="donation-stat">
+          <span class="dstat-num">100+</span>
+          <span class="dstat-label">Camps Held</span>
+        </div>
+        <div class="donation-stat-divider"></div>
+        <div class="donation-stat">
+          <span class="dstat-num">10K+</span>
+          <span class="dstat-label">Lives Touched</span>
+        </div>
+        <div class="donation-stat-divider"></div>
+        <div class="donation-stat">
+          <span class="dstat-num">₹10lakhs+</span>
+          <span class="dstat-label">Aid Distributed</span>
+        </div>
+      </div>
+
+      <%# Feature cards %>
+      <ul class="donation-features">
+        <li class="donation-feature">
+          <div class="df-icon">🏥</div>
+          <div>
+            <strong>Free Medical Camps</strong>
+            <span>Bringing healthcare to underserved communities</span>
+          </div>
+        </li>
+        <li class="donation-feature">
+          <div class="df-icon">🚨</div>
+          <div>
+            <strong>Emergency Relief Programs</strong>
+            <span>Rapid aid when families need it most</span>
+          </div>
+        </li>
+        <li class="donation-feature">
+          <div class="df-icon">❤️</div>
+          <div>
+            <strong>Support for Needy Families</strong>
+            <span>Long-term welfare for vulnerable households</span>
+          </div>
+        </li>
+        <li class="donation-feature">
+          <div class="df-icon">📢</div>
+          <div>
+            <strong>Healthcare Awareness Activities</strong>
+            <span>Educating communities on preventive health</span>
+          </div>
+        </li>
+      </ul>
+
+      <%# Trust strip %>
+      <div class="donation-trust">
+        <span class="trust-item">🔒 Secure & Encrypted</span>
+        <span class="trust-item">🧾 80G Tax Benefit</span>
+        <span class="trust-item">✅ Registered NGO</span>
+      </div>
+
+    </div>
+
+    <%# ── RIGHT PANEL ── %>
+    <div class="donation-right">
+
+      <h2>Make a Donation</h2>
+
+      <%= form_with model: @donation, local: true do |f| %>
+
+        <div class="field-row">
+          <div>
+            <%= f.label :first_name %>
+            <%= f.text_field :first_name, placeholder: "Junaid" %>
+          </div>
+          <div>
+            <%= f.label :last_name %>
+            <%= f.text_field :last_name, placeholder: "khan" %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.email_field :email, placeholder: "jk@example.com" %>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <%= f.label :mobile_number %>
+            <%= f.text_field :mobile_number, placeholder: "+91 98337 63903" %>
+          </div>
+          <div>
+            <%= f.label :amount %>
+            <%= f.number_field :amount, placeholder: "₹ 500" %>
+          </div>
+        </div>
+
+        <%# Quick amount buttons %>
+        <div class="quick-amounts">
+          <span class="qa-label">Quick Select:</span>
+          <button type="button" class="qa-btn" onclick="setAmount(500)">₹500</button>
+          <button type="button" class="qa-btn" onclick="setAmount(1000)">₹1,000</button>
+          <button type="button" class="qa-btn" onclick="setAmount(2500)">₹2,500</button>
+          <button type="button" class="qa-btn" onclick="setAmount(5000)">₹5,000</button>
+        </div>
+
+        <div class="field">
+          <%= f.label :address %>
+          <%= f.text_area :address, placeholder: "Your full address" %>
+        </div>
+
+        <%= f.submit "Donate Now", class: "donate-btn" %>
+
+        <p class="donate-note">🔒 Your information is safe and secure</p>
+
+      <% end %>
+
+    </div>
+
   </div>
-
-  <div class="donation-right">
-
-    <h2>Make a Donation</h2>
-
-    <%= form_with model: @donation, local: true do |f| %>
-
-      <div class="field-row">
-        <div>
-          <%= f.label :first_name %>
-          <%= f.text_field :first_name %>
-        </div>
-
-        <div>
-          <%= f.label :last_name %>
-          <%= f.text_field :last_name %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= f.label :email %>
-        <%= f.email_field :email %>
-      </div>
-
-      <div class="field-row">
-        <div>
-          <%= f.label :mobile_number %>
-          <%= f.text_field :mobile_number %>
-        </div>
-
-        <div>
-          <%= f.label :amount %>
-          <%= f.number_field :amount %>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= f.label :address %>
-        <%= f.text_area :address %>
-      </div>
-
-      <%= f.submit "Donate Now", class: "donate-btn" %>
-
-    <% end %>
-
-  </div>
-
 </div>
+
+<script>
+  function setAmount(val) {
+    const field = document.querySelector('input[name*="amount"]');
+    if (field) field.value = val;
+    document.querySelectorAll('.qa-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
