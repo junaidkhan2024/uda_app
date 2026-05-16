@@ -1,9 +1,9 @@
 class Registration < ApplicationRecord
   SPECIALIZATIONS = [
-    "General Physician", "Cardiology", "Neurology", "Orthopedics",
+    "General Physician", "Cardiology", "Neuro-suregeon", "Neuro-physician", "Orthopedics",
     "Gynaecology & Obstetrics", "Paediatrics", "Oncology", "Dermatology",
-    "Ophthalmology", "ENT", "Psychiatry", "Radiology",
-    "Surgery – General", "Anaesthesiology", "Other"
+    "Ophthalmology", "ENT", "Psychiatry", "Radiology", "Gastro-enterologist",
+    "Surgery – General", "Anaesthesiology", "Dentist", "Cosmetics and aesthetics", "Unani Physician", "Ayurved Physician", "Physiotherapist", "Other"
   ].freeze
 
   STATUSES = %w[pending approved rejected].freeze

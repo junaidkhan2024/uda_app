@@ -168,11 +168,14 @@
                   <td>📍 <%= reg.area %></td>
                   <td><%= reg.updated_at.strftime("%d %b %Y") %></td>
                   <td>
-                    <%= link_to "✕ Revoke",
-                        reject_admin_registration_path(reg),
-                        method: :patch,
-                        data: { turbo_method: :patch, confirm: "Revoke approval?" },
-                        class: "btn-reject btn-sm" %>
+                    <div class="action-btns">
+                      <%= link_to "✏ Edit", edit_admin_registration_path(reg), class: "btn-edit" %>
+                      <%= link_to "✕ Revoke",
+                          reject_admin_registration_path(reg),
+                          method: :patch,
+                          data: { turbo_method: :patch, confirm: "Revoke approval?" },
+                          class: "btn-reject btn-sm" %>
+                    </div>
                   </td>
                 </tr>
               <% end %>

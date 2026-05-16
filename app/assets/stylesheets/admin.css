@@ -250,3 +250,63 @@ a { color:inherit; text-decoration:none; }
   .stats-row, .panel { padding:16px; }
   .form-row { grid-template-columns:1fr; }
 }
+
+/* ── EDIT REGISTRATION FORM ── */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin: 20px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.admin-form-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.admin-form-card .form-group label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.admin-form-card .form-group input,
+.admin-form-card .form-group select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 10px;
+  padding: 13px 16px;
+  color: var(--white);
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  outline: none;
+  transition: all 0.3s;
+  -webkit-appearance: none;
+}
+
+.admin-form-card .form-group input:focus,
+.admin-form-card .form-group select:focus {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+}
+
+.admin-form-card .form-group select option {
+  background: var(--navy-mid);
+}
+
+#custom_spec_group {
+  flex-direction: column;
+  gap: 7px;
+  margin-top: -8px;
+}
