@@ -1,0 +1,142 @@
+<%# app/views/admin/registrations/edit.html.erb %>
+
+<div class="admin-form-wrap">
+  <div class="admin-form-card">
+
+    <!-- TOP -->
+    <div class="form-top">
+      <h2>
+        ✏️ Edit — Dr. <%= @registration.first_name %> <%= @registration.last_name %>
+      </h2>
+
+      <%= link_to "← Dashboard",
+          admin_dashboard_path,
+          class: "back-link" %>
+    </div>
+
+    <!-- ERRORS -->
+    <% if @registration.errors.any? %>
+      <div class="flash-error">
+        ⚠ <%= @registration.errors.full_messages.join(", ") %>
+      </div>
+    <% end %>
+
+    <!-- FORM -->
+    <%= form_with model: @registration,
+                  url: admin_registration_path(@registration),
+                  method: :patch do |f| %>
+
+      <!-- PERSONAL INFO -->
+      <div class="section-label">
+        Personal Information
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+        </div>
+
+      </div>
+
+      <!-- MEDICAL DETAILS -->
+      <div class="section-label">
+        Medical Details
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <%= f.label :qualification %>
+          <%= f.text_field :qualification %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :registration_number %>
+          <%= f.text_field :registration_number %>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <%= f.label :specialization %>
+
+        <%= f.select :specialization,
+            options_for_select(
+              Registration::SPECIALIZATIONS,
+              @registration.specialization
+            ),
+            { include_blank: "Select Specialization" },
+            class: "form-select" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :hospital_or_clinic_name,
+            "Hospital / Clinic" %>
+
+        <%= f.text_field :hospital_or_clinic_name %>
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div class="section-label">
+        Contact Information
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <%= f.label :phone %>
+          <%= f.text_field :phone %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email %>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+          <%= f.label :area %>
+          <%= f.text_field :area %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :status %>
+
+          <%= f.select :status,
+              [
+                ["⏳ Pending", "pending"],
+                ["✅ Approved", "approved"],
+                ["✕ Rejected", "rejected"]
+              ],
+              {},
+              class: "form-select" %>
+        </div>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="form-actions">
+
+        <%= f.submit "💾 Save Changes",
+            class: "btn-submit" %>
+
+        <%= link_to "Cancel",
+            admin_dashboard_path,
+            class: "btn-cancel" %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
