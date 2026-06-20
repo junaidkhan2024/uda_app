@@ -101,7 +101,6 @@
               <th>Hospital / Clinic</th>
               <th>Contact</th>
               <th>Area</th>
-              <th>Status</th>
               <th>Joined</th>
             </tr>
           </thead>
@@ -126,9 +125,6 @@
                   </div>
                 </td>
                 <td class="td-area"><span class="area-tag">📍 <%= reg.area %></span></td>
-                <td class="td-status">
-                  <span class="status-badge status-<%= reg.status %>"><%= reg.status.capitalize %></span>
-                </td>
                 <td class="td-date"><%= reg.created_at.strftime("%d %b %Y") %></td>
               </tr>
             <% end %>
