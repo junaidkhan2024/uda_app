@@ -3,7 +3,8 @@ class Registration < ApplicationRecord
     "General Physician", "Cardiology", "Neuro-suregeon", "Neuro-physician", "Orthopedics",
     "Gynaecology & Obstetrics", "Paediatrics", "Oncology", "Dermatology",
     "Ophthalmology", "ENT", "Psychiatry", "Radiology", "Gastro-enterologist",
-    "Surgery – General", "Anaesthesiology", "Dentist", "Cosmetics and aesthetics", "Unani Physician", "Ayurved Physician", "Physiotherapist", "Other"
+    "Surgery – General", "Anaesthesiology", "Dentist", "Cosmetics and aesthetics",
+    "Unani Physician", "Ayurved Physician", "Physiotherapist", "Other"
   ].freeze
 
   STATUSES = %w[pending approved rejected].freeze
@@ -11,9 +12,9 @@ class Registration < ApplicationRecord
   validates :first_name,          presence: true
   validates :last_name,           presence: true
   validates :registration_number, presence: true, uniqueness: { case_sensitive: false }
-  validates :specialization,      inclusion: { in: SPECIALIZATIONS }
+  validates :specialization,      inclusion: { in: SPECIALIZATIONS }, allow_blank: true
   validates :qualification,       presence: true
-  validate :hospital_or_clinic_name
+  validates :hospital_or_clinic_name, presence: true
   validates :phone,               presence: true, format: { with: /\A[\d\s\+\-]{7,15}\z/, message: "is not valid" }
   validates :email,               presence: true, uniqueness: { case_sensitive: false },
                                   format: { with: URI::MailTo::EMAIL_REGEXP }

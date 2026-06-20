@@ -1,10 +1,8 @@
-# app/controllers/members_controller.rb
-
 class MembersController < ApplicationController
   def index
-    @registrations = Registration.all.order(created_at: :desc)
+    @registrations = Registration.where(status: "approved").order(created_at: :desc)
 
-    # Search by name, hospital, area
+    # Search by name, hospital, area — scoped to approved records only
     if params[:search].present?
       query = "%#{params[:search].downcase}%"
       @registrations = @registrations.where(
@@ -15,23 +13,22 @@ class MembersController < ApplicationController
       )
     end
 
-    # Filter by specialization
+    # Filter by specialization — scoped to approved records only
     if params[:specialization].present?
       @registrations = @registrations.where(specialization: params[:specialization])
     end
 
-    # Filter by area
+    # Filter by area — scoped to approved records only
     if params[:area].present?
       @registrations = @registrations.where(area: params[:area])
     end
 
-    # Stats
-    all = Registration.all
-    @total_count         = all.count
-    @approved_count      = all.where(status: "approved").count
-    @specialization_count = all.distinct.count(:specialization)
+    # Stats — each counts its own scope
+    @total_count          = Registration.count
+    @approved_count       = Registration.where(status: "approved").count
+    @specialization_count = Registration.where(status: "approved").distinct.count(:specialization)
 
-    # Dropdown options
-    @areas = Registration.distinct.pluck(:area).compact.sort
+    # Dropdown options — approved records only so pending areas don't surface
+    @areas = Registration.where(status: "approved").distinct.pluck(:area).compact.sort
   end
 end
