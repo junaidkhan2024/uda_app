@@ -32,4 +32,9 @@ Rails.application.routes.draw do
 
   # Donation page
   resources :donations
+
+  # config/routes.rb
+  resources :chats, only: [] do
+    resources :messages, only: [ :create ]
+  end
 end
