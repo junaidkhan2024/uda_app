@@ -6,7 +6,12 @@ gem "rails", "~> 8.1.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 
+gem "ruby_llm"          # unified LLM client (supports Ollama, OpenAI, Anthropic, etc.)
+gem "ruby_llm-mcp", require: false # optional, skip unless you need MCP tools
+gem "neighbor"           # ActiveRecord + pgvector integration
 gem "pg", "~> 1.6"
+
+gem "sidekiq"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

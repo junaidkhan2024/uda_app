@@ -1,4 +1,6 @@
 class Registration < ApplicationRecord
+  after_commit :reindex_for_search, on: [ :create, :update ]
+
   SPECIALIZATIONS = [
     "General Physician", "Cardiology", "Neuro-suregeon", "Neuro-physician", "Orthopedics",
     "Gynaecology & Obstetrics", "Paediatrics", "Oncology", "Dermatology",
@@ -30,4 +32,10 @@ class Registration < ApplicationRecord
   def pending?  = status == "pending"
   def approved? = status == "approved"
   def rejected? = status == "rejected"
+
+  private
+
+  def reindex_for_search
+    KnowledgeIndexJob.perform_later(self.class.name, id)
+  end
 end
